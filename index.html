@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        let startMove=false;
+        let boxX=0;
+        let boxY=0;
+        let startX=0;
+        let startY=0;
+        function move(event){
+            if(startMove){
+                var e = event || window.event;
+                let img=document.getElementById("test");
+                let box=img.getBBox();
+
+                img.setAttribute("x", boxX+(e.screenX-startX));
+                img.setAttribute("y", boxY+(e.screenY-startY));
+                console.log("box:"+box.x+','+box.y);
+                console.log(e.screenX+","+e.screenY);
+            }
+        }
+        function up(event){
+            startMove=false;
+            var e = event || window.event;
+            // console.log("x,y:"+e.screenX+","+e.screenY);
+        }
+        function down(event){
+            var e = event || window.event;
+            
+            startMove=true;
+            let img=document.getElementById("test");
+            let box=img.getBBox();
+            startX=e.screenX;
+            startY=e.screenY;
+            boxX=box.x;
+            boxY=box.y;
+            console.log(box);
+            console.log("x,y:"+e.screenX+","+e.screenX);
+            
+            // console.log("x,y:"+startX+","+startY);
+            
+        }
+        let x=y=10;
+        function changePos(){
+            draw(x++,y++);
+        }
+    </script>
+</head>
+<body>
+    <svg style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+                onmousedown="down()" onmouseup="up()" onmousemove="move()" >
+        <pattern  id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+            <image width="1" height="1" xlink:href="img.jpg"/>
+        </pattern>
+        <rect id="test" x="10" y="0" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/>
+    </svg>
+    <canvas id="canvas1" width="200" height="100" style="border:1px solid #c3c3c3;">
+            Your browser does not support the canvas element.
+    </canvas>
+    <br/>
+    <input type="button" value="move" onclick="changePos()"/>
+    <input type="button" value="save" onclick="save()"/>
+    <script type="text/javascript">
+        function draw(x=0,y=0){
+            var c=document.getElementById("canvas1");
+            var ctx=c.getContext("2d");
+            ctx.clearRect(0,0,c.clientWidth,c.clientHeight);
+            var img = new Image();
+            img.onload=function(){
+                ctx.drawImage(img,x,y);
+            }
+            img.src = 'img.jpg';
+        }
+        var canvas=document.getElementById("canvas1");
+            canvas.onclick = function () {
+                alert(canvas.toDataURL("image/png"));
+                window.location = canvas.toDataURL("image/png");
+            }
+        draw();
+    </script>
+</body>
+</html>
