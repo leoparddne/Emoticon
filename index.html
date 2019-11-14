@@ -32,17 +32,19 @@
                 var e = event || window.event;
                 let box=obj.getBBox();
 
-                console.log("startX,y:"+startX+","+startY)
-                console.log(box);
-                console.log("screenX,y:"+e.screenX+","+e.screenY);
-
+                // console.log("startX,y:"+startX+","+startY)
+                // console.log("screenX,y:"+e.screenX+","+e.screenY);
+                // console.log(box);
+                // console.log(boxY);
+                // console.log(e.screenY)
+                // console.log((e.screenY-startY))
                 
                 obj.setAttribute("x", boxX+(e.screenX-startX));
                 obj.setAttribute("y", boxY+(e.screenY-startY));
 
-                console.log("startX,y:"+startX+","+startY)
-                console.log(box);
-                console.log("screenX,y:"+e.screenX+","+e.screenY);
+                // console.log("desx"+(boxX+(e.screenX-startX)));
+                // console.log("desy"+(boxY+(e.screenY-startY)));
+                // console.log(box);
             }
         }
         //释放鼠标，清空状态
@@ -64,8 +66,11 @@
             let box=obj.getBBox();
             startX=e.screenX;
             startY=e.screenY;
-            boxX=box.x;
-            boxY=box.y;
+            // boxX=box.x;
+            // boxY=box.y;
+            boxX=parseInt(obj.getAttribute("x"));
+            boxY=parseInt(obj.getAttribute("y"));
+            console.log(box)
             // console.log("startX,y:"+startX+","+startY)
             // console.log(box);
             // console.log("screenx,y:"+e.screenX+","+e.screenY);
@@ -105,7 +110,7 @@
     <input type="button" value="输入完成"/><br/>
     文字颜色:<input type="color" id="color" onchange="changeText()"/>
     <br/>
-    <input type="button" value="move" onclick="changePos()"/>
+    <!-- <input type="button" value="move" onclick="changePos()"/> -->
     <input type="button" value="save" onclick="save()"/>
     <!-- <script type="text/javascript">
         function draw(x=0,y=0){
