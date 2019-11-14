@@ -80,6 +80,12 @@
             currentObj.textContent=txt.value;
             currentObj.setAttribute("style", "fill:"+color.value );
         }
+        function fileChange(obj){
+            let src=window.URL.createObjectURL(obj.files[0]);
+            // console.log(obj);
+            createImage(src);
+            drawSVG();
+        }
         function addText(){
             let txt=document.getElementById("txt");
             createText(txt.value);
@@ -180,6 +186,7 @@
         function getRandomID(){
             return objList.size.toString()+Math.random().toString(36).slice(2);
         }
+
         function testSvgData(){
             createImage("img.jpg");
             createImage("img.jpg");
@@ -319,7 +326,8 @@
     <br/>
     文字颜色:<input type="color" id="color" onchange="changeColor()"/>
     <input type="button" value="清除颜色" onclick="clearColor()"/>
-    输入文字:<input type="text" id="txt" onchange="changeText()"/>
+    输入文字:<input type="text" id="txt" onchange="changeText()"/><br/>
+    <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
     <input type="button" value="输入完成"/><input type="button" onclick="addText()" value="新增文字"/><br/>
     <input type="button" value="移动到上一层" onclick="moveBehind()"/>
     <input type="button" value="移动到下一层" onclick="moveFront()"/>
