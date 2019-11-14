@@ -60,8 +60,8 @@
             if(checkSelect()){
                 let txt=document.getElementById("txt");
                 txt.value=obj.textContent;
-                console.log(txt);
-                console.log(currentObj.textContent);
+                // console.log(txt);
+                // console.log(currentObj.textContent);
             }
         }
         function getTextValue(){
@@ -85,12 +85,21 @@
             createText(txt.value);
             drawSVG();
         }
+        //调整文字颜色
         function changeColor(){
             if(!checkSelect()){
                 return;
             }
-            let color=document.getElementById("color");
-            currentObj.setAttribute("style", "fill:"+color.value );
+            if(currentObj.textContent!=""){
+                let color=document.getElementById("color");
+                currentObj.setAttribute("style", "fill:"+color.value );
+            }
+        }
+        //清除颜色
+        function clearColor(){
+            if(checkSelect()){
+                currentObj.setAttribute("style", "fill:black");
+            }
         }
         //每次点击的对象
         let currentObj=null;
@@ -309,6 +318,7 @@
     </svg>
     <br/>
     文字颜色:<input type="color" id="color" onchange="changeColor()"/>
+    <input type="button" value="清除颜色" onclick="clearColor()"/>
     输入文字:<input type="text" id="txt" onchange="changeText()"/>
     <input type="button" value="输入完成"/><input type="button" onclick="addText()" value="新增文字"/><br/>
     <input type="button" value="移动到上一层" onclick="moveBehind()"/>
