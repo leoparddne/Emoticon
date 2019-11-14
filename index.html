@@ -56,16 +56,42 @@
             startY=e.screenY;
             boxX=parseInt(obj.getAttribute("x"));
             boxY=parseInt(obj.getAttribute("y"));
-        }
 
-        function changeText(){
+            if(checkSelect()){
+                let txt=document.getElementById("txt");
+                txt.value=obj.textContent;
+                console.log(txt);
+                console.log(currentObj.textContent);
+            }
+        }
+        function getTextValue(){
+            if(!checkSelect()){
+                return;
+            }
             let txt=document.getElementById("txt");
-            let svgTxt=document.getElementById("svgText");
-            let color=document.getElementById("color");
-            svgTxt.textContent=txt.value;
-            svgTxt.setAttribute("style", "fill:"+color.value );
+            txt.value=currentObj.textContent;
         }
-
+        function changeText(){
+            if(!checkSelect()){
+                return;
+            }
+            let txt=document.getElementById("txt");
+            let color=document.getElementById("color");
+            currentObj.textContent=txt.value;
+            currentObj.setAttribute("style", "fill:"+color.value );
+        }
+        function addText(){
+            let txt=document.getElementById("txt");
+            createText(txt.value);
+            drawSVG();
+        }
+        function changeColor(){
+            if(!checkSelect()){
+                return;
+            }
+            let color=document.getElementById("color");
+            currentObj.setAttribute("style", "fill:"+color.value );
+        }
         //每次点击的对象
         let currentObj=null;
         let currentID=null;
@@ -130,7 +156,7 @@
             text.setAttribute("onmousedown","down(this)");
             text.setAttribute("onmousemove","move(this)");
             text.setAttribute("onclick","setCurrentObj(this)");
-            text.setAttribute("x","10");
+            text.setAttribute("x","0");
             text.setAttribute("y","10");
             text.setAttribute("fill","black");
             text.textContent=txt;
@@ -169,12 +195,15 @@
         }
         function checkSelect(){
             if(currentID==null){
-                return;
+                return false;
             }
+            return true;
         }
         //上移一层
         function moveBehind(){
-            checkSelect();
+            if(!checkSelect()){
+                return;
+            }
             //找到了需要调整的对象
             let getItem=false;
             let tmpMap=new Map();
@@ -203,7 +232,9 @@
         }
         //下移一层
         function moveFront(){
-            checkSelect();
+            if(!checkSelect()){
+                return;
+            }
             let checkFirst=false;
             let tmpMap=new Map();
             let lastData=null;
@@ -241,7 +272,9 @@
         }
         //移动到最上层
         function moveTopLevel(){
-            checkSelect();
+            if(!checkSelect()){
+                return;
+            }
             let tmp=objList.get(currentID);
             objList.delete(currentID);
             objList.set(currentID,tmp);
@@ -249,7 +282,9 @@
         }
         //移动到最底层
         function moveLowestLevel(){
-            checkSelect();
+            if(!checkSelect()){
+                return;
+            }
             let tmp=objList.get(currentID);
             objList.delete(currentID);
             let tmpMap=new Map();
@@ -273,8 +308,9 @@
         id="test1" x="0" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/> -->
     </svg>
     <br/>
-    文字颜色:<input type="color" id="color" onchange="changeText()"/>输入文字:<input type="text" id="txt" onchange="changeText()"/>
-    <input type="button" value="输入完成"/><br/>
+    文字颜色:<input type="color" id="color" onchange="changeColor()"/>
+    输入文字:<input type="text" id="txt" onchange="changeText()"/>
+    <input type="button" value="输入完成"/><input type="button" onclick="addText()" value="新增文字"/><br/>
     <input type="button" value="移动到上一层" onclick="moveBehind()"/>
     <input type="button" value="移动到下一层" onclick="moveFront()"/>
     <input type="button" value="移动到最上层" onclick="moveTopLevel()"/>
