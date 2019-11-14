@@ -5,66 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        body{
+            moz-user-select: -moz-none; 
+            -moz-user-select: none; 
+            -o-user-select:none; 
+            -khtml-user-select:none; 
+            -webkit-user-select:none; 
+            -ms-user-select:none; 
+            user-select:none;
+        }
+    </style>
     <script>
         let startMove=false;
         let boxX=0;
         let boxY=0;
         let startX=0;
         let startY=0;
-        function move(event){
+        let lastObj=null;
+        function move(obj){
+            //检测当前移动的元素是否为点击选中的元素
+            if(lastObj!=obj){
+                reset();
+            }
             if(startMove){
                 var e = event || window.event;
-                let img=document.getElementById("test");
-                let box=img.getBBox();
+                let box=obj.getBBox();
 
-                img.setAttribute("x", boxX+(e.screenX-startX));
-                img.setAttribute("y", boxY+(e.screenY-startY));
-                console.log("box:"+box.x+','+box.y);
-                console.log(e.screenX+","+e.screenY);
+                console.log("startX,y:"+startX+","+startY)
+                console.log(box);
+                console.log("screenX,y:"+e.screenX+","+e.screenY);
+
+                
+                obj.setAttribute("x", boxX+(e.screenX-startX));
+                obj.setAttribute("y", boxY+(e.screenY-startY));
+
+                console.log("startX,y:"+startX+","+startY)
+                console.log(box);
+                console.log("screenX,y:"+e.screenX+","+e.screenY);
             }
         }
-        function up(event){
-            startMove=false;
+        //释放鼠标，清空状态
+        function up(){
+            reset();
             var e = event || window.event;
             // console.log("x,y:"+e.screenX+","+e.screenY);
         }
-        function down(event){
+        function reset(){
+            startMove=false;
+            startX=0;
+            startY=0;
+        }
+        //鼠标按下记录当前坐标
+        function down(obj){
             var e = event || window.event;
-            
+            lastObj=obj;
             startMove=true;
-            let img=document.getElementById("test");
-            let box=img.getBBox();
+            let box=obj.getBBox();
             startX=e.screenX;
             startY=e.screenY;
             boxX=box.x;
             boxY=box.y;
-            console.log(box);
-            console.log("x,y:"+e.screenX+","+e.screenX);
-            
-            // console.log("x,y:"+startX+","+startY);
-            
+            // console.log("startX,y:"+startX+","+startY)
+            // console.log(box);
+            // console.log("screenx,y:"+e.screenX+","+e.screenY);
         }
-        let x=y=10;
-        function changePos(){
-            draw(x++,y++);
+        // let x=y=10;
+        // function changePos(){
+        //     draw(x++,y++);
+        // }
+        function changeText(){
+            let txt=document.getElementById("txt");
+            let svgTxt=document.getElementById("svgText");
+            let color=document.getElementById("color");
+            svgTxt.textContent=txt.value;
+            svgTxt.setAttribute("style", "fill:"+color.value );
         }
     </script>
 </head>
 <body>
-    <svg style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
-                onmousedown="down()" onmouseup="up()" onmousemove="move()" >
+    <svg  onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+                 >
         <pattern  id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
             <image width="1" height="1" xlink:href="img.jpg"/>
         </pattern>
-        <rect id="test" x="10" y="0" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/>
+        <text onmousedown="down(this)" onmousemove="move(this)" 
+        id="svgText" x="10" y="50" fill="#ccc">I love SVG</text>
+        <rect onmousedown="down(this)" onmousemove="move(this)" 
+        id="test1" x="0" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/>
+        <rect onmousedown="down(this)" onmousemove="move(this)" 
+        id="test2" x="140" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/>
+
     </svg>
-    <canvas id="canvas1" width="200" height="100" style="border:1px solid #c3c3c3;">
+    <!-- <canvas id="canvas1" width="200" height="100" style="border:1px solid #c3c3c3;">
             Your browser does not support the canvas element.
-    </canvas>
+    </canvas> -->
+    <br/>
+    输入文字:<input type="text" id="txt" onchange="changeText()"/>
+    <input type="button" value="输入完成"/><br/>
+    文字颜色:<input type="color" id="color" onchange="changeText()"/>
     <br/>
     <input type="button" value="move" onclick="changePos()"/>
     <input type="button" value="save" onclick="save()"/>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         function draw(x=0,y=0){
             var c=document.getElementById("canvas1");
             var ctx=c.getContext("2d");
@@ -81,6 +124,6 @@
                 window.location = canvas.toDataURL("image/png");
             }
         draw();
-    </script>
+    </script> -->
 </body>
 </html>
