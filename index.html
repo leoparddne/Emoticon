@@ -142,8 +142,35 @@
                 objList.delete(currentID);
                 currentObj=null;
                 currentID=null;
-                // drawSVG();
+                drawSVG();
             }
+        }
+        function save(){
+            // let obj=document.getElementById("svgObj");
+            let obj=document.getElementById("forsvg");
+            let img=document.getElementById("textImg");
+
+            var data = 'data:image/svg+xml;base64,'+obj.innerHTML.toString(); // + window.btoa(unescape(encodeURIComponent(obj.innerHTML)));
+            // let data="data:image/svg+xml;charset=utf-8,"+obj.outerHTML;
+            console.log(data);
+            img.Width=100;
+            img.Height=100;
+            // img.src=data;
+            img.href=data;
+
+            // var canvas = document.createElement('canvas');
+			// 	canvas.width = img.width;
+			// 	canvas.height = img.height;
+			// 	var ctx = canvas.getContext('2d');
+			// 	ctx.drawImage(img, 0, 0);
+			// 	setTimeout(function() {
+			// 		var data = canvas.toDataURL('image/png');
+			// 		var a = document.createElement('a');
+			// 		a.href = data;  //将画布内的信息导出为png图片数据
+			// 		a.download = "logo.png";  //设定下载名称
+            //         a.type="image/png";
+			// 		a.click(); //点击触发下载
+			// 	}, 1000);
         }
         //保存所有的对象
         let objList=new Map();
@@ -342,12 +369,18 @@
         id="test1" x="0" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/> -->
     </svg>
     <br/>
+    <img id="textImg" />
+    <img src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect x="50" y="20" width="100" height="100" fill="#FF0000"/></svg>'>
+    <img width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"> <text  x="10" y="50" fill="#ccc">I love SVG</text></svg>'>
+    <img id="forsvg" width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="120" height="50"><body xmlns="http://www.w3.org/1999/xhtml"><p style="font-size:12px;margin:0;">一段需要word wrap的文字。</p></body></foreignObject></svg>'>
+   
     <label id="errTxt" style="color:red;font-size: 12px"></label>
     <br/>
     文字颜色:<input type="color" id="color" onchange="changeColor()"/>
     <input type="button" value="清除颜色" onclick="clearColor()"/>
-    输入文字:<input type="text" id="txt" onchange="changeText()"/><br/>
     <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
+    <br/>
+    输入文字:<input type="text" id="txt" onchange="changeText()"/>
     <input type="button" value="输入完成"/><input type="button" onclick="addText()" value="新增文字"/><br/>
     <input type="button" value="移动到上一层" onclick="moveBehind()"/>
     <input type="button" value="移动到下一层" onclick="moveFront()"/>
