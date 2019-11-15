@@ -106,7 +106,7 @@
         }
         function addText(){
             let txt=document.getElementById("txt");
-            createText(txt.value);
+            createText(txt.value,0,10);
             drawSVG();
         }
         //调整文字颜色
@@ -146,17 +146,13 @@
             }
         }
         function save(){
-            // let obj=document.getElementById("svgObj");
-            let obj=document.getElementById("forsvg");
+            let obj=document.getElementById("svgObj");
             let img=document.getElementById("textImg");
-
-            var data = 'data:image/svg+xml;base64,'+obj.innerHTML.toString(); // + window.btoa(unescape(encodeURIComponent(obj.innerHTML)));
-            // let data="data:image/svg+xml;charset=utf-8,"+obj.outerHTML;
+            var data = 'data:image/svg+xml;base64,'+ window.btoa(unescape(encodeURIComponent(obj.outerHTML)));
             console.log(data);
-            img.Width=100;
-            img.Height=100;
-            // img.src=data;
-            img.href=data;
+            // img.Width=100;
+            // img.Height=100;
+            img.src=data;
 
             // var canvas = document.createElement('canvas');
 			// 	canvas.width = img.width;
@@ -211,13 +207,13 @@
             objList.set(rect.id,rect);
         }
         //创建文字
-        function createText(txt){
+        function createText(txt,x,y){
             let text=document.createElementNS(SVGNS,"text");
             text.setAttribute("onmousedown","down(this)");
             text.setAttribute("onmousemove","move(this)");
             text.setAttribute("onclick","setCurrentObj(this)");
-            text.setAttribute("x","0");
-            text.setAttribute("y","10");
+            text.setAttribute("x",x);
+            text.setAttribute("y",y);
             text.setAttribute("fill","black");
             text.textContent=txt;
             text.id=getRandomID();
@@ -235,7 +231,8 @@
         function testSvgData(){
             createImage("img.jpg");
             createImage("img.jpg");
-            createText("hello");
+            createText("hello",0,10);
+            createText("hello",0,50);
             drawSVG();
         }
         function addSvgItem(){
@@ -369,11 +366,8 @@
         id="test1" x="0" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/> -->
     </svg>
     <br/>
-    <img id="textImg" />
-    <img src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><rect x="50" y="20" width="100" height="100" fill="#FF0000"/></svg>'>
-    <img width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"> <text  x="10" y="50" fill="#ccc">I love SVG</text></svg>'>
-    <img id="forsvg" width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="120" height="50"><body xmlns="http://www.w3.org/1999/xhtml"><p style="font-size:12px;margin:0;">一段需要word wrap的文字。</p></body></foreignObject></svg>'>
-   
+    <img id="textImg" width="200px" height="100px"/>
+    <!-- <img id="forsvg" width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="120" height="50"><body xmlns="http://www.w3.org/1999/xhtml"><p style="font-size:12px;margin:0;">一段需要word wrap的文字。</p></body></foreignObject></svg>'> -->
     <label id="errTxt" style="color:red;font-size: 12px"></label>
     <br/>
     文字颜色:<input type="color" id="color" onchange="changeColor()"/>
