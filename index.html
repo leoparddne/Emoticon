@@ -173,14 +173,23 @@
                 //文字
                 if(imgSrc==null){
                     // // 设置字体
+                    let fontSize="20";
+                    let fontWeight="bold";
+                    let fontName="黑体";
                     // cxt.font = "18px bold 黑体";
-                    cxt.font = "18px bold 黑体";
                     // // 设置颜色
                     let color=i.getAttribute("style");
                     if(color!=null){
-                        let finalColor=color.toString().replace("fill:","");
+                        let styles=color.toString().split(";");
+                        styles.forEach(i => {
+                            let data=i.split(":");
+                            if(data[0]=="fill"){
+                                finalColor=data[1];
+                            }
+                        });
                         // console.log(finalColor);
                         cxt.fillStyle =finalColor 
+                        cxt.font = fontSize+" "+fontWeight+" "+fontName;
                     }
                     // cxt.fillStyle = "#00f";//color;
                     // // 设置水平对齐方式
