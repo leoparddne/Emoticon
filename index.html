@@ -146,27 +146,41 @@
             }
         }
         function save(){
-            let obj=document.getElementById("svgObj");
-            let img=document.getElementById("textImg");
-            var data = 'data:image/svg+xml;base64,'+ window.btoa(unescape(encodeURIComponent(obj.outerHTML)));
-            console.log(data);
-            // img.Width=100;
-            // img.Height=100;
-            img.src=data;
-
+            // let obj=document.getElementById("svgObj");
+            // let img=document.getElementById("textImg");
+            // var data = 'data:image/svg+xml;base64,'+ window.btoa(unescape(encodeURIComponent(obj.outerHTML)));
+            // // console.log(data);
+            // // img.Width=100;
+            // // img.Height=100;
+            // img.src=data;
+            // console.log(img.src);
             // var canvas = document.createElement('canvas');
-			// 	canvas.width = img.width;
-			// 	canvas.height = img.height;
-			// 	var ctx = canvas.getContext('2d');
-			// 	ctx.drawImage(img, 0, 0);
-			// 	setTimeout(function() {
-			// 		var data = canvas.toDataURL('image/png');
-			// 		var a = document.createElement('a');
-			// 		a.href = data;  //将画布内的信息导出为png图片数据
-			// 		a.download = "logo.png";  //设定下载名称
-            //         a.type="image/png";
-			// 		a.click(); //点击触发下载
-			// 	}, 1000);
+			// canvas.width = img.width;
+			// canvas.height = img.height;
+
+            // img.onload=()=>{
+            //     var ctx = canvas.getContext('2d');
+            //     ctx.drawImage(img, 0, 0);
+            //     var data = canvas.toDataURL('image/png');
+            //     var tmpLink = document.createElement('a');
+            //     tmpLink.href = data;  //将画布内的信息导出为png图片数据
+            //     tmpLink.download = "logo.png";  //设定下载名称
+            //     tmpLink.type="image/png";
+            //     tmpLink.click(); //点击触发下载
+            // };
+
+            var c=document.getElementById("myCanvas");
+            var cxt=c.getContext("2d");
+            var img=new Image()
+            img.src="img.jpg"
+            cxt.drawImage(img,0,0);
+            var imgSrc = c.toDataURL("image/png");
+                var data = c.toDataURL('image/png');
+                var tmpLink = document.createElement('a');
+                tmpLink.href = imgSrc;  //将画布内的信息导出为png图片数据
+                tmpLink.download = "logo.png";  //设定下载名称
+                tmpLink.type="image/png";
+                tmpLink.click(); //点击触发下载
         }
         //保存所有的对象
         let objList=new Map();
@@ -175,9 +189,13 @@
         //创建图片对象
         function createImage(src){
             let img=document.createElementNS(SVGNS,"image");
+            
             img.setAttribute("width","1");
             img.setAttribute("height","1");
             img.href.baseVal = src;// img.setAttribute("xlink.href",src);
+            img.setAttribute("xmlns","http://www.w3.org/1999/xlink");
+
+            img.src=window.btoa(unescape(encodeURIComponent(src)));
             let pattern=document.createElementNS(SVGNS,"pattern");
             pattern.setAttribute("width","100%");
             pattern.setAttribute("height","100%");
@@ -200,12 +218,23 @@
             rect.setAttribute("height","100");
             rect.setAttribute("fill","url(#"+randomID+")");
             rect.id=getRandomID();
+            rect.setAttribute("data-imgsrc",src);
 
             let svg=document.getElementById("svgObj");
             svg.appendChild(pattern);
             // svg.appendChild(rect);
             objList.set(rect.id,rect);
         }
+        function getBase64Image(img){
+                var canvas=document.createElement("canvas");
+                canvas.width=img.width;
+                canvas.height=img.height;
+                var ctx=canvas.getContext("2d");
+                ctx.drawImage(img,0,0,img.width,img.height);
+                var ext=img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+                var dataUrl=canvas.toDataURL("images/"+ext);
+                return dataUrl;
+            };
         //创建文字
         function createText(txt,x,y){
             let text=document.createElementNS(SVGNS,"text");
@@ -359,13 +388,19 @@
     <svg id="svgObj" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
         <!-- <pattern  id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
             <image width="1" height="1" xlink:href="img.jpg"/>
-        </pattern> -->
+        </pattern>
+        <rect onmousedown="down(this)" onmousemove="move(this)"  onclick="setCurrentObj(this)"
+        id="test1" x="0" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/> -->
         <!-- <text onmousedown="down(this)" onmousemove="move(this)" onclick="setCurrentObj(this)"
         id="svgText" x="10" y="50" fill="#ccc">I love SVG</text> -->
-        <!-- <rect onmousedown="down(this)" onmousemove="move(this)"  onclick="setCurrentObj(this)"
-        id="test1" x="0" y="80" rx="0" ry="0" width="100" height="100" fill="url(#avatar)"/> -->
     </svg>
+    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #c3c3c3;">
+        Your browser does not support the canvas element.
+    </canvas>
+        
     <br/>
+    <img id="txtImg1" width="200px" height="100px" src="img.jpg"/>
+    
     <img id="textImg" width="200px" height="100px"/>
     <!-- <img id="forsvg" width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="120" height="50"><body xmlns="http://www.w3.org/1999/xhtml"><p style="font-size:12px;margin:0;">一段需要word wrap的文字。</p></body></foreignObject></svg>'> -->
     <label id="errTxt" style="color:red;font-size: 12px"></label>
