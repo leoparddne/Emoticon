@@ -131,6 +131,9 @@
                 }
             }
         }
+        function changeFontSize(){
+            
+        }
         //每次点击的对象
         let currentObj=null;
         let currentID=null;
@@ -443,11 +446,13 @@
     <!-- <img id="forsvg" width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="120" height="50"><body xmlns="http://www.w3.org/1999/xhtml"><p style="font-size:12px;margin:0;">一段需要word wrap的文字。</p></body></foreignObject></svg>'> -->
     <label id="errTxt" style="color:red;font-size: 12px"></label>
     <br/>
+    <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
     文字颜色:<input type="color" id="color" onchange="changeColor()"/>
     <input type="button" value="清除颜色" onclick="clearColor()"/>
     <input type="button" value="B" onclick="clearColor()"/>
     <input type="button" value="I" onclick="clearColor()"/>
-    <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
+    字号<input type="number" value="" onclick="changeFontSize()"/>
+    
     <br/>
     输入文字:<input type="text" id="txt" onchange="changeText()"/>
     <input type="button" value="输入完成"/><input type="button" onclick="addText()" value="新增文字"/><br/>
