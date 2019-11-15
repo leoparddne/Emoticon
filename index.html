@@ -171,11 +171,12 @@
                 if(imgSrc==null){
                     // // 设置字体
                     // cxt.font = "18px bold 黑体";
+                    cxt.font = "18px bold 黑体";
                     // // 设置颜色
                     let color=i.getAttribute("style");
                     if(color!=null){
                         let finalColor=color.toString().replace("fill:","");
-                        console.log(finalColor);
+                        // console.log(finalColor);
                         cxt.fillStyle =finalColor 
                     }
                     // cxt.fillStyle = "#00f";//color;
@@ -198,8 +199,8 @@
                     if(BBox.height>imgData.height){
                         finalY=BBox.height-imgData.height;
                     }
-                    console.log(i.getBBox())
-                    console.log(finalX+"-"+finalY);
+                    // console.log(i.getBBox())
+                    // console.log(finalX+"-"+finalY);
                     
                     let drawObj=new Image()
                     drawObj.src=imgSrc;
@@ -444,6 +445,8 @@
     <br/>
     文字颜色:<input type="color" id="color" onchange="changeColor()"/>
     <input type="button" value="清除颜色" onclick="clearColor()"/>
+    <input type="button" value="B" onclick="clearColor()"/>
+    <input type="button" value="I" onclick="clearColor()"/>
     <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
     <br/>
     输入文字:<input type="text" id="txt" onchange="changeText()"/>
