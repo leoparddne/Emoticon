@@ -168,7 +168,13 @@
                     // // 设置字体
                     // cxt.font = "18px bold 黑体";
                     // // 设置颜色
-                    // cxt.fillStyle = "#ff0";
+                    let color=i.getAttribute("style");
+                    if(color!=null){
+                        let finalColor=color.toString().replace("fill:","");
+                        console.log(finalColor);
+                        cxt.fillStyle =finalColor 
+                    }
+                    // cxt.fillStyle = "#00f";//color;
                     // // 设置水平对齐方式
                     // cxt.textAlign = "center";
                     // // 设置垂直对齐方式
@@ -203,7 +209,7 @@
             tmpLink.href = imgSrc;  //将画布内的信息导出为png图片数据
             tmpLink.download = "logo.png";  //设定下载名称
             tmpLink.type="image/png";
-            tmpLink.click(); //点击触发下载
+            // tmpLink.click(); //点击触发下载
         }
         //保存所有的对象
         let objList=new Map();
@@ -415,7 +421,7 @@
     </script>
 </head>
 <body>
-    <svg id="svgObj" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+    <svg id="svgObj" width="400" height="200" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
         <!-- <pattern  id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
             <image width="1" height="1" xlink:href="img.jpg"/>
         </pattern>
