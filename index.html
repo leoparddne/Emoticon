@@ -178,18 +178,21 @@
                     let fontName="黑体";
                     // cxt.font = "18px bold 黑体";
                     // // 设置颜色
-                    let color=i.getAttribute("style");
-                    if(color!=null){
-                        let styles=color.toString().split(";");
-                        styles.forEach(i => {
-                            let data=i.split(":");
-                            if(data[0]=="fill"){
-                                finalColor=data[1];
+                    let style=i.style;
+                    if(style.size!=0){
+                        let finalColor=null;
+                        console.log(style);
+                        for(let i=0;i<style.length;i++){
+                            console.log(style[i]);
+                            if(style[i]=="fill"){
+                                finalColor=style["fill"];
+                                cxt.fillStyle =finalColor;
+                                console.log(finalColor);
                             }
-                        });
+                        }
                         // console.log(finalColor);
-                        cxt.fillStyle =finalColor 
-                        cxt.font = fontSize+" "+fontWeight+" "+fontName;
+                        cxt.font = "18px bold 黑体";
+                        // cxt.font = fontSize+"px "+fontWeight+" "+fontName;
                     }
                     // cxt.fillStyle = "#00f";//color;
                     // // 设置水平对齐方式
@@ -297,7 +300,7 @@
             text.setAttribute("onclick","setCurrentObj(this)");
             text.setAttribute("x",x);
             text.setAttribute("y",y);
-            text.setAttribute("fill","black");
+            // text.setAttribute("fill","black");
             text.textContent=txt;
             text.id=getRandomID();
 
