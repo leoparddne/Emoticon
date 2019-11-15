@@ -124,8 +124,11 @@
         }
         //清除颜色
         function clearColor(){
+            //只有文字才能清除颜色
             if(checkSelect()){
-                currentObj.setAttribute("style", "fill:black");
+                if(currentObj.textContent!=""){
+                    currentObj.setAttribute("style", "fill:black");
+                }
             }
         }
         //每次点击的对象
