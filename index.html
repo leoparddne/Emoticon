@@ -81,6 +81,7 @@
             let color=document.getElementById("color");
             currentObj.textContent=txt.value;
             currentObj.setAttribute("style", "fill:"+color.value );
+            save();
         }
         function fileChange(obj){
             // console.log(obj.files[0])
@@ -102,6 +103,7 @@
             // console.log(obj);
             createImage(src);
             drawSVG();
+            save();
         }
         function showErr(txt){
             let err=document.getElementById("errTxt");
@@ -111,6 +113,7 @@
             let txt=document.getElementById("txt");
             createText(txt.value,0,10);
             drawSVG();
+            save();
         }
         //调整文字颜色
         function changeColor(){
@@ -120,6 +123,7 @@
             if(currentObj.textContent!=""){
                 let color=document.getElementById("color");
                 currentObj.setAttribute("style", "fill:"+color.value );
+                save();
             }
         }
         //清除颜色
@@ -128,11 +132,16 @@
             if(checkSelect()){
                 if(currentObj.textContent!=""){
                     currentObj.setAttribute("style", "fill:black");
+                    save();
                 }
             }
         }
-        function changeFontSize(){
-
+        function changeFontSize(obj){
+            if(checkSelect()){
+                let fontSize=obj.value;
+                currentObj.style["font-size"]=fontSize+"px";
+                save();
+            }
         }
         //每次点击的对象
         let currentObj=null;
@@ -173,27 +182,31 @@
                 //文字
                 if(imgSrc==null){
                     // // 设置字体
-                    let fontSize="20";
+                    let fontSize="20px";
                     let fontWeight="bold";
                     let fontName="黑体";
+                    let oldFillStyle=cxt.fillStyle;
                     // cxt.font = "18px bold 黑体";
                     // // 设置颜色
                     let style=i.style;
-                    if(style.size!=0){
-                        let finalColor=null;
-                        console.log(style);
+                    console.log(style.length);
+                    if(style.length!=0){
                         for(let i=0;i<style.length;i++){
-                            console.log(style[i]);
-                            if(style[i]=="fill"){
-                                finalColor=style["fill"];
-                                cxt.fillStyle =finalColor;
-                                console.log(finalColor);
+                            // console.log(style[i]);
+                            switch(style[i]){
+                                case "fill":
+                                console.log(style["fill"]);
+                                    cxt.fillStyle =style["fill"];
+                                break;
+                                case "font-size":
+                                    fontSize=style["font-size"];//console.log(style["font-size"]);
+                                break;
                             }
                         }
-                        // console.log(finalColor);
-                        cxt.font = "18px bold 黑体";
-                        // cxt.font = fontSize+"px "+fontWeight+" "+fontName;
+                        // cxt.font = "18px bold 黑体";
+                        cxt.font = fontSize+" "+fontWeight+" "+fontName;
                     }
+                    
                     // cxt.fillStyle = "#00f";//color;
                     // // 设置水平对齐方式
                     // cxt.textAlign = "center";
@@ -201,6 +214,7 @@
                     // cxt.textBaseline = "middle";
                     // // 绘制文字（参数：要写的字，x坐标，y坐标）
                     cxt.fillText(i.textContent, x,y);
+                    cxt.fillStyle=oldFillStyle;
                 }
                 else{
                     let imgData=new Image();
@@ -315,8 +329,8 @@
         }
 
         function testSvgData(){
-            createImage("img.jpg");
-            createImage("img.jpg");
+            // createImage("img.jpg");
+            // createImage("img.jpg");
             createText("hello",0,10);
             createText("hello",0,50);
             drawSVG();
@@ -463,7 +477,7 @@
     <input type="button" value="清除颜色" onclick="clearColor()"/>
     <input type="button" value="B" onclick="clearColor()"/>
     <input type="button" value="I" onclick="clearColor()"/>
-    字号<input type="number" value="" onclick="changeFontSize()"/>
+    字号<input type="number" value="" onclick="changeFontSize(this)"/>
     
     <br/>
     输入文字:<input type="text" id="txt" onchange="changeText()"/>
