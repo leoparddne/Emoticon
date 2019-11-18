@@ -1,0 +1,11 @@
+@keyframes marchingants {
+  to {
+    stroke-dashoffset: 10;
+  }
+}
+.svgBorder {
+  stroke: hsl(260, 50%, 90%);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  animation: marchingants 1s forwards infinite linear;
+}

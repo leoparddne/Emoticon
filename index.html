@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="svg.css" rel="stylesheet" type="text/css" /> 
     <style>
         body{
             moz-user-select: -moz-none; 
@@ -147,9 +148,18 @@
         //每次点击的对象
         let currentObj=null;
         let currentID=null;
+        let lastClass=null;
         function setCurrentObj(obj){
+            if(currentObj!=null){
+                //清除上一个选择得svgborder
+                currentObj.setAttribute("class",lastClass);
+                //保存当前的样式
+                lastClass=obj.getAttribute("class");
+            }
+
             currentObj=obj;
             currentID=obj.id;
+            currentObj.setAttribute("class","svgBorder");
         }
         //删除
         function del(){
@@ -355,13 +365,6 @@
             return objList.size.toString()+Math.random().toString(36).slice(2);
         }
 
-        function testSvgData(){
-            createImage("img.jpg");
-            // createImage("img.jpg");
-            createText("hello",0,10);
-            createText("hello",0,50);
-            drawSVG();
-        }
         function addSvgItem(){
             let svg=document.getElementById("svgObj");
             svg.appendChild();
@@ -544,8 +547,7 @@
     <input type="button" value="调整大小" onclick="changePos()"/>
     <input type="button" value="删除" onclick="del()"/>
     <input type="button" value="save" onclick="save(true)"/>
-    <script>
-        testSvgData();
+    <script src="test.js">
     </script>
 </body>
 </html>
