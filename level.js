@@ -23,7 +23,6 @@ function moveBehind(){
                 tmpMap.set(i.id,i);
             }
         }
-        
         lastData=i;
     });
     objList=tmpMap;

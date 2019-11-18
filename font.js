@@ -1,4 +1,3 @@
-let defaultFontSize="15px";//默认字体大小
 function Bold(){
     if(checkSelect()){
         let value=currentObj.style["font-weight"];
