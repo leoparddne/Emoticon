@@ -9,12 +9,18 @@ function Rotate(obj){
         }
     }
 }
+//transform="translate(1,11) rotate(30) scale(1,1)"
 //缩放
 function Scala(obj){
+    var e = event || window.event;
+    
     if(checkSelect()){
         if(transObj!=null){
             //调整图片
-
+            let moveX=e.screenX-transStartX;
+            let moveY=e.screenY.transStartY;
+            console.log(transBoxX-moveX)
+            console.log(transBoxY-moveY)
             //触发重绘锚点
             DrawAnchor();
         }
@@ -43,10 +49,10 @@ function TransShapeDown(obj,type){
     transBoxX = parseInt(obj.getAttribute("x"));
     transBoxY = parseInt(obj.getAttribute("y"));
     transType=type;
-    console.log(startX);
-    console.log(startY);
-    console.log(boxX);
-    console.log(boxY);
+    console.log(transStartX);
+    console.log(transStartY);
+    console.log(transBoxX);
+    console.log(transBoxY);
     
     switch (type) {
         //LeftTop
@@ -67,6 +73,11 @@ function TransShapeDown(obj,type){
     } 
 }
 //绘制锚点
-function DrawAnchor(){
+function DrawAnchor(obj){
+    console.log("绘制")
+    let bbox=obj.getBBox();
+    console.log(bbox)
+}
+function DrawAnchorNode(x,y){
 
 }

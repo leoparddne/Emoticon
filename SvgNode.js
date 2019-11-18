@@ -56,7 +56,15 @@ function setCurrentObj(obj) {
         currentObj.setAttribute("class", lastClass);
         //保存当前的样式
         lastClass = obj.getAttribute("class");
+
+        let widthNumber=document.getElementById("widthNumber");
+        widthNumber.value=obj.getAttribute("width");
+        let heightNumber=document.getElementById("heightNumber");
+        heightNumber.value=obj.getAttribute("height");
     }
+    //绘制锚点
+    // DrawAnchor(obj);
+    
 
     currentObj = obj;
     currentID = obj.id;
@@ -158,7 +166,8 @@ function save(needsave = false) {
 
             let drawObj = new Image()
             drawObj.src = imgSrc;
-            cxt.drawImage(drawObj, x, y);
+            
+            cxt.drawImage(drawObj, x, y,i.getAttribute("width"),i.getAttribute("height"));
         }
     });
     if (needsave) {
@@ -276,7 +285,19 @@ function checkSelect() {
     }
     return true;
 }
-
+//调整图片大小
+function changeWidth(obj){
+    if(checkSelect()){
+        currentObj.setAttribute("width",obj.value);
+        save();
+    }
+}
+function changeHeight(obj){
+    if(checkSelect()){
+        currentObj.setAttribute("height",obj.value);
+        save();
+    }    
+}
 document.onkeydown = function (e) { // 回车提交表单
     // 兼容FF和IE和Opera
     var theEvent = window.event || e;
