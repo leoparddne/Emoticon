@@ -224,10 +224,7 @@
                                 break;                                
                             }
                         }
-                        console.log(fontWeight);
-                        console.log(fontName);
                         cxt.font = `${fontStyle} ${fontWeight} ${fontSize} ${fontName}`;
-                        console.log(cxt.font);
                     }
                     // cxt.fillStyle = "#00f";//color;
                     // // 设置水平对齐方式
@@ -486,6 +483,7 @@
                 if(value!=undefined&&value!=null){
                     currentObj.style["font-weight"]=value=="bold"?"":"bold";
                     drawSVG();
+                    save();
                 }                
             }
         }
@@ -495,6 +493,7 @@
                 if(value!=undefined&&value!=null){
                     currentObj.style["font-style"]=value=="italic"?"normal":"italic";
                     drawSVG();
+                    save();
                 }
             }
         }
