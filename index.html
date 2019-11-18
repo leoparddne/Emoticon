@@ -285,7 +285,10 @@
             let pattern=document.createElementNS(SVGNS,"pattern");
             pattern.setAttribute("width","100%");
             pattern.setAttribute("height","100%");
+            // pattern.setAttribute("patternContentUnits","userSpaceOnUse");
             pattern.setAttribute("patternContentUnits","objectBoundingBox");
+            pattern.setAttribute("preserveAspectRatio","xMinYMin  meet");
+            pattern.preserveAspectRatio="";
             pattern.appendChild(img);
             let randomID=Math.random().toString(36).slice(2);
             pattern.id=randomID;
@@ -354,7 +357,7 @@
 
         function testSvgData(){
             createImage("img.jpg");
-            createImage("img.jpg");
+            // createImage("img.jpg");
             createText("hello",0,10);
             createText("hello",0,50);
             drawSVG();
@@ -497,10 +500,18 @@
                 }
             }
         }
+        document.onkeydown = function (e) { // 回车提交表单
+        // 兼容FF和IE和Opera
+            var theEvent = window.event || e;
+            var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+            if(code==8 || code==46) {
+                del();
+            }
+        }
     </script>
 </head>
 <body>
-    <svg id="svgObj" width="400" height="200" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+    <svg id="svgObj" width="240" height="240" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
         <!-- <pattern  id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
             <image width="1" height="1" xlink:href="img.jpg"/>
         </pattern>
@@ -509,7 +520,7 @@
         <!-- <text onmousedown="down(this)" onmousemove="move(this)" onclick="setCurrentObj(this)"
         id="svgText" x="10" y="50" fill="#ccc">I love SVG</text> -->
     </svg>
-    <canvas id="myCanvas" width="400" height="200" style="border:1px solid #c3c3c3;">
+    <canvas id="myCanvas" width="240" height="240" style="border:1px solid #c3c3c3;">
         Your browser does not support the canvas element.
     </canvas>
     <br/>
