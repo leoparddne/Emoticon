@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link href="svg.css" rel="stylesheet" type="text/css" /> 
-    <link href="common.css" rel="stylesheet" type="text/css" /> 
+    <link href="svg.css" rel="stylesheet" type="text/css" />
+    <link href="common.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
-        function fileChange(obj){
-            let src=window.URL.createObjectURL(obj.files[0]);
-            let acceptTypes=obj.accept.split(',');
-            let isAcceptType=false;
-            acceptTypes.forEach(i=>{
-                if(obj.files[0].type==i){
-                    isAcceptType=true;
+        function fileChange(obj) {
+            let src = window.URL.createObjectURL(obj.files[0]);
+            let acceptTypes = obj.accept.split(',');
+            let isAcceptType = false;
+            acceptTypes.forEach(i => {
+                if (obj.files[0].type == i) {
+                    isAcceptType = true;
                 }
             });
-            if(!isAcceptType){
+            if (!isAcceptType) {
                 showErr("不支持的类型")
                 return;
             }
@@ -26,18 +27,19 @@
             drawSVG();
             save();
         }
-        function showErr(txt){
-            let err=document.getElementById("errTxt");
-            err.textContent=txt;
+        function showErr(txt) {
+            let err = document.getElementById("errTxt");
+            err.textContent = txt;
         }
     </script>
 </head>
+
 <body>
-    <svg id="svgObj" width="240" height="240" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
-       
-<rect x="5" y="5" width="5" height="5"
-style="fill:#ccc;stroke:none;stroke-width:5;
-fill-opacity:0.1;stroke-opacity:0.9"/>
+    <svg id="svgObj" width="240" height="240" onmouseup="up()" style="border:1px solid #c3c3c3;" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+
+        <rect x="5" y="5" width="5" height="5" style="fill:black;stroke:#ccc;stroke-width:5;
+fill-opacity:0.1;stroke-opacity:0.9" onmousedown="TransShapeDown(this,1)" onmousemove="TransShapeMove(this)" onclick="setCurrentObj(this)" />
         <!-- <pattern  id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
             <image width="1" height="1" xlink:href="img.jpg"/>
         </pattern>
@@ -50,30 +52,33 @@ fill-opacity:0.1;stroke-opacity:0.9"/>
         Your browser does not support the canvas element.
     </canvas>
     <br/>
-    <!-- <img id="forsvg" width="300" height="150" src='data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="120" height="50"><body xmlns="http://www.w3.org/1999/xhtml"><p style="font-size:12px;margin:0;">一段需要word wrap的文字。</p></body></foreignObject></svg>'> -->
     <label id="errTxt" style="color:red;font-size: 12px"></label>
     <br/>
-    <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
-    文字颜色:<input type="color" id="color" onchange="changeColor()"/>
-    <input type="button" value="清除颜色" onclick="clearColor()"/>
-    <input type="button" value="B" onclick="Bold()"/>
-    <input type="button" value="I" onclick="Italic()"/>
-    字号<input type="number" value="" onclick="changeFontSize(this)"/>
-    
+    <input type="file" id="file" onchange="fileChange(this)" accept="image/jpg,image/jpeg,image/png,image/PNG" /> 文字颜色:
+    <input type="color" id="color" onchange="changeColor()" />
+    <input type="button" value="清除颜色" onclick="clearColor()" />
+    <input type="button" value="B" onclick="Bold()" />
+    <input type="button" value="I" onclick="Italic()" /> 字号
+    <input type="number" value="" onclick="changeFontSize(this)" />
+
+    <br/> 输入文字:
+    <input type="text" id="txt" onchange="changeText()" />
+    <input type="button" value="输入完成" />
+    <input type="button" onclick="addText()" value="新增文字" />
     <br/>
-    输入文字:<input type="text" id="txt" onchange="changeText()"/>
-    <input type="button" value="输入完成"/><input type="button" onclick="addText()" value="新增文字"/><br/>
-    <input type="button" value="移动到上一层" onclick="moveBehind()"/>
-    <input type="button" value="移动到下一层" onclick="moveFront()"/>
-    <input type="button" value="移动到最上层" onclick="moveTopLevel()"/>
-    <input type="button" value="移动到最底层" onclick="moveLowestLevel()"/>
-    <input type="button" value="调整大小" onclick="changePos()"/>
-    <input type="button" value="删除" onclick="del()"/>
-    <input type="button" value="save" onclick="save(true)"/>
+    <input type="button" value="移动到上一层" onclick="moveBehind()" />
+    <input type="button" value="移动到下一层" onclick="moveFront()" />
+    <input type="button" value="移动到最上层" onclick="moveTopLevel()" />
+    <input type="button" value="移动到最底层" onclick="moveLowestLevel()" />
+    <input type="button" value="调整大小" onclick="changePos()" />
+    <input type="button" value="删除" onclick="del()" />
+    <input type="button" value="save" onclick="save(true)" />
 
     <script src="SvgNode.js"></script>
     <!-- <script src="test.js"></script> -->
     <script src="level.js"></script>
     <script src="font.js"></script>
+    <script src="Transshape.js"></script>
 </body>
+
 </html>
